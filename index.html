@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/responsive.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <h1 class="logo">CSS Practice</h1>
+        <nav class="nav">
+          <a href="practice/flexbox.html" class="nav-link">Flexbox</a>
+          <a href="practice/grid.html" class="nav-link">Grid</a>
+          <a href="practice/position.html" class="nav-link">Position</a>
+          <a href="practice/responsive.html" class="nav-link">반응형</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="다크모드 토글">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="intro-section">
+        <div class="intro-content">
+          <h2 class="section-title">핵심 이론</h2>
+          <p class="section-description">CSS의 기본기를 탄탄하게 다져보세요</p>
+
+          <div class="theory-grid">
+            <div class="theory-card">
+              <div class="card-icon">📐</div>
+              <h3 class="card-title">Display</h3>
+              <p class="card-description">flex, grid, block, inline-block</p>
+              <div class="card-badge">레이아웃</div>
+            </div>
+
+            <div class="theory-card">
+              <div class="card-icon">📍</div>
+              <h3 class="card-title">Position</h3>
+              <p class="card-description">relative, absolute, fixed, sticky</p>
+              <div class="card-badge">위치</div>
+            </div>
+
+            <div class="theory-card">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Box Model</h3>
+              <p class="card-description">width, height, margin, padding</p>
+              <div class="card-badge">박스모델</div>
+            </div>
+
+            <div class="theory-card">
+              <div class="card-icon">📱</div>
+              <h3 class="card-title">반응형</h3>
+              <p class="card-description">media queries, 다양한 화면 대응</p>
+              <div class="card-badge">반응형</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="/toggle.js"></script>
+  </body>
+</html>

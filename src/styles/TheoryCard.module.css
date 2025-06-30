@@ -1,0 +1,61 @@
+.theoryCard {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 12px var(--shadow-light);
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.theoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-color), #00d4ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theoryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-medium);
+}
+
+.theoryCard:hover::before {
+  opacity: 1;
+}
+
+.cardIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.cardBadge {
+  display: inline-block;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}

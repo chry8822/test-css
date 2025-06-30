@@ -1,0 +1,49 @@
+/* CSS 변수와 글로벌 스타일 */
+:root {
+  /* 라이트 테마 색상 */
+  --bg-primary: #f9fafb;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f2f4f6;
+  --text-primary: #191f28;
+  --text-secondary: #4e5968;
+  --text-tertiary: #6b7684;
+  --accent-color: #0064ff;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.12);
+}
+
+/* 다크 테마 색상 */
+[data-theme='dark'] {
+  --bg-primary: #0e1419;
+  --bg-secondary: #191f28;
+  --bg-tertiary: #3a4553;
+  --text-primary: #f9fafb;
+  --text-secondary: #b8c5d1;
+  --text-tertiary: #8b95a1;
+  --accent-color: #4d9eff;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  font-size: 16px;
+  font-weight: 400;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100vh;
+}
