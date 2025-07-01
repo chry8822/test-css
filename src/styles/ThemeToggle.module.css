@@ -11,6 +11,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  margin-left: 100px;
 }
 
 .themeToggle:hover {
@@ -29,4 +30,11 @@
 
 .themeToggle:hover .themeIcon {
   transform: rotate(180deg);
+}
+
+/* 반응형 */
+@media (max-width: 650px) {
+  .themeToggle {
+    margin-left: 0;
+  }
 }

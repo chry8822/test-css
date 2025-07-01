@@ -11,6 +11,8 @@
   --border-color: rgba(0, 0, 0, 0.1);
   --shadow-light: rgba(0, 0, 0, 0.08);
   --shadow-medium: rgba(0, 0, 0, 0.12);
+
+  --badge-border: 1px solid #eeeeee;
 }
 
 /* 다크 테마 색상 */
@@ -25,6 +27,8 @@
   --border-color: rgba(255, 255, 255, 0.1);
   --shadow-light: rgba(0, 0, 0, 0.3);
   --shadow-medium: rgba(0, 0, 0, 0.4);
+
+  --badge-border: none;
 }
 
 * {

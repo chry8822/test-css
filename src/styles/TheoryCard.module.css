@@ -1,3 +1,35 @@
+@keyframes breathing {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes breathingGlow {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 12px var(--shadow-light);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px var(--shadow-medium);
+  }
+}
+
+@keyframes breathingBadge {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
 .theoryCard {
   background: var(--bg-secondary);
   border-radius: 16px;
@@ -15,18 +47,26 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent-color), #00d4ff);
+  height: 3px; /* 더 두껏게 */
+  background: linear-gradient(90deg, var(--accent-color), #bcdaff); /* 고정 색상 */
   opacity: 0;
-  transition: opacity 0.3s ease;
+  width: 0;
+  border-radius: 16px 16px 0 0; /* 카드와 같은 둥근 모서리 */
+  transition: width 0.3s ease, opacity 0.2s ease;
 }
 
 .theoryCard:hover {
-  transform: translateY(-4px);
+  cursor: pointer;
+  transform: translateY(-8px);
   box-shadow: 0 8px 24px var(--shadow-medium);
 }
 
+.theoryCard:hover .cardBadge {
+  animation: breathingGlow 1s ease-in-out infinite;
+}
+
 .theoryCard:hover::before {
+  width: 100%;
   opacity: 1;
 }
 
@@ -37,7 +77,7 @@
 }
 
 .cardTitle {
-  font-size: 20px;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
@@ -58,4 +98,6 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
+  transition: transform 0.3s ease;
+  border: var(--badge-border);
 }

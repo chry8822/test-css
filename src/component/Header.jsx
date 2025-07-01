@@ -13,18 +13,22 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
+        {/* 로고 */}
         <Link to="/" className={styles.logo}>
           CSS Practice
         </Link>
 
-        <div className={styles.headerRight}>
-          <nav className={styles.nav}>
-            {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className={styles.navLink}>
-                {link.text}
-              </Link>
-            ))}
-          </nav>
+        {/* 네비게이션 */}
+        <nav className={styles.nav}>
+          {navLinks.map((link) => (
+            <Link key={link.to} to={link.to} className={styles.navLink}>
+              {link.text}
+            </Link>
+          ))}
+        </nav>
+
+        {/* 테마 토글 (항상 오른쪽 끝) */}
+        <div className={styles.themeToggleWrapper}>
           <ThemeToggle />
         </div>
       </div>

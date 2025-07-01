@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::before 가상요소 데모</title>
+    <style>
+        :root {
+            --accent-color: #0064ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 원본 코드 */
+        .theoryCard {
+            position: relative; /* ::before가 absolute를 쓰므로 필요 */
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .theoryCard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #00d4ff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 8px 8px 0 0; /* 카드와 같은 둥근 모서리 */
+        }
+
+        /* 호버 시 그라데이션 바 나타남 */
+        .theoryCard:hover::before {
+            opacity: 1;
+        }
+
+        .theoryCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .card-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* 다른 스타일 예시들 */
+        .example-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        /* 예시 1: 왼쪽 세로 바 */
+        .card-left-bar {
+            position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card-left-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ff6b6b, #ee5a24);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .card-left-bar:hover::before {
+            opacity: 1;
+        }
+
+        /* 예시 2: 전체 테두리 */
+        .card-border {
+            position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .card-border:hover::before {
+            opacity: 1;
+        }
+
+        /* 예시 3: 하단 그라데이션 */
+        .card-bottom {
+            position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card-bottom::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .card-bottom:hover::before {
+            opacity: 1;
+        }
+
+        .example-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .example-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: #555;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="section-title">🎨 ::before 가상요소 활용법</h1>
+        
+        <h2 class="section-subtitle">원본 코드 효과</h2>
+        <p>카드에 마우스를 올려보세요! 상단에 그라데이션 바가 나타납니다.</p>
+        
+        <div class="theoryCard">
+            <div class="card-icon">📐</div>
+            <div class="card-title">Display</div>
+            <div class="card-description">flex, grid, block, inline-block</div>
+            <div class="card-badge">레이아웃</div>
+        </div>
+
+        <div class="code-block">
+.theoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-color), #00d4ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.theoryCard:hover::before {
+  opacity: 1;
+}
+        </div>
+
+        <h2 class="section-subtitle">다른 스타일 예시들</h2>
+        
+        <div class="example-cards">
+            <div class="card-left-bar">
+                <div class="example-title">왼쪽 세로 바</div>
+                <div class="example-desc">호버 시 왼쪽에 세로 그라데이션 바가 나타납니다.</div>
+            </div>
+
+            <div class="card-border">
+                <div class="example-title">전체 테두리</div>
+                <div class="example-desc">호버 시 전체를 감싸는 그라데이션 테두리가 나타납니다.</div>
+            </div>
+
+            <div class="card-bottom">
+                <div class="example-title">하단 그라데이션</div>
+                <div class="example-desc">호버 시 하단에 그라데이션 바가 나타납니다.</div>
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">📝 ::before와 ::after 차이점</h2>
+        
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+            <p><strong>::before</strong> - 요소의 <em>앞</em>에 가상 요소 추가</p>
+            <p><strong>::after</strong> - 요소의 <em>뒤</em>에 가상 요소 추가</p>
+            
+            <div class="code-block">
+&lt;div class="example"&gt;
+  ::before  &lt;- 여기
+  실제 내용
+  ::after   &lt;- 여기
+&lt;/div&gt;
+            </div>
+        </div>
+
+        <h2 class="section-subtitle">🎯 실제 사용 용도</h2>
+        <ul style="background: white; padding: 1.5rem; border-radius: 8px; line-height: 1.8;">
+            <li>✅ <strong>장식적 요소</strong>: 그라데이션 바, 아이콘, 도형</li>
+            <li>✅ <strong>호버 효과</strong>: 언더라인, 테두리, 오버레이</li>
+            <li>✅ <strong>상태 표시</strong>: 읽음/안읽음, 활성/비활성</li>
+            <li>✅ <strong>툴팁</strong>: 말풍선 꼬리 부분</li>
+            <li>✅ <strong>배지</strong>: 알림 개수, NEW 표시</li>
+        </ul>
+
+        <div style="margin-top: 3rem; padding: 1.5rem; background: #e3f2fd; border-radius: 8px;">
+            <h3>💡 핵심 포인트</h3>
+            <ul style="margin-top: 1rem; line-height: 1.8;">
+                <li><code>content: ''</code>는 필수! (빈 문자열이라도)</li>
+                <li><code>position: absolute</code>를 쓰려면 부모에 <code>position: relative</code> 필요</li>
+                <li><code>opacity: 0</code> + <code>transition</code>으로 부드러운 애니메이션</li>
+                <li>HTML을 수정하지 않고도 시각적 요소 추가 가능</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

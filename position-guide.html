@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Position 완벽 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .section {
+            margin: 2rem;
+            padding: 2rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .section h2 {
+            margin-bottom: 1rem;
+            color: #007bff;
+        }
+
+        /* ===== 1. STATIC 예시 ===== */
+        .static-container {
+            background: #e3f2fd;
+            padding: 1rem;
+        }
+
+        .static-box {
+            width: 100px;
+            height: 60px;
+            background: #2196f3;
+            color: white;
+            display: inline-block;
+            text-align: center;
+            line-height: 60px;
+            margin: 5px;
+        }
+
+        /* ===== 2. RELATIVE 예시 ===== */
+        .relative-container {
+            background: #e8f5e8;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .relative-normal {
+            width: 100px;
+            height: 60px;
+            background: #4caf50;
+            color: white;
+            display: inline-block;
+            text-align: center;
+            line-height: 60px;
+            margin: 5px;
+        }
+
+        .relative-moved {
+            position: relative;
+            top: 10px;
+            left: 20px;
+            background: #ff9800;
+        }
+
+        /* ===== 3. ABSOLUTE 예시 ===== */
+        .absolute-container {
+            background: #fff3e0;
+            padding: 1rem;
+            position: relative;
+            height: 200px;
+            border: 2px dashed #ff9800;
+        }
+
+        .absolute-box {
+            position: absolute;
+            width: 80px;
+            height: 50px;
+            background: #ff5722;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            font-size: 12px;
+        }
+
+        .abs-1 { top: 10px; left: 10px; }
+        .abs-2 { top: 10px; right: 10px; }
+        .abs-3 { bottom: 10px; left: 10px; }
+        .abs-4 { bottom: 10px; right: 10px; }
+        .abs-center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #e91e63;
+        }
+
+        /* ===== 4. FIXED 예시 ===== */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #673ab7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .fixed-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #ff4081;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .fixed-fab:hover {
+            background: #e91e63;
+            transform: scale(1.1);
+        }
+
+        /* ===== 5. STICKY 예시 ===== */
+        .sticky-container {
+            height: 300px;
+            overflow-y: scroll;
+            border: 2px solid #9c27b0;
+            background: #f3e5f5;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: #9c27b0;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sticky-content {
+            padding: 1rem;
+            height: 600px;
+            background: linear-gradient(to bottom, #f3e5f5, #e1bee7);
+        }
+
+        /* ===== 유틸리티 ===== */
+        .spacer {
+            height: 100px;
+            background: #f0f0f0;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        /* 페이지 상단 여백 (fixed header 때문에) */
+        .main-content {
+            margin-top: 60px;
+        }
+
+        /* z-index 데모 */
+        .zindex-demo {
+            position: relative;
+            height: 150px;
+            background: #fff;
+        }
+
+        .zindex-box {
+            position: absolute;
+            width: 100px;
+            height: 80px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .z1 { background: red; top: 20px; left: 20px; z-index: 1; }
+        .z2 { background: green; top: 40px; left: 40px; z-index: 2; }
+        .z3 { background: blue; top: 60px; left: 60px; z-index: 3; }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header -->
+    <div class="fixed-header">
+        🎯 CSS Position 완벽 가이드 - 스크롤해도 고정됨!
+    </div>
+
+    <!-- Fixed FAB Button -->
+    <button class="fixed-fab" onclick="scrollToTop()">↑</button>
+
+    <div class="main-content">
+        <!-- 1. STATIC -->
+        <div class="section">
+            <h2>1. position: static (기본값)</h2>
+            <p>문서의 일반적인 흐름을 따릅니다. top, left 등의 속성이 무시됩니다.</p>
+            
+            <div class="code-block">
+.static-box {
+  position: static; /* 기본값 */
+  /* top, left 등이 무시됨 */
+}
+            </div>
+
+            <div class="static-container">
+                <div class="static-box">박스 1</div>
+                <div class="static-box">박스 2</div>
+                <div class="static-box">박스 3</div>
+            </div>
+        </div>
+
+        <!-- 2. RELATIVE -->
+        <div class="section">
+            <h2>2. position: relative (상대 위치)</h2>
+            <p>원래 위치를 기준으로 상대적으로 이동합니다. 원래 자리는 그대로 차지합니다.</p>
+            
+            <div class="code-block">
+.relative-moved {
+  position: relative;
+  top: 10px;    /* 아래로 10px */
+  left: 20px;   /* 오른쪽으로 20px */
+}
+            </div>
+
+            <div class="relative-container">
+                <div class="relative-normal">정상</div>
+                <div class="relative-normal relative-moved">이동됨</div>
+                <div class="relative-normal">정상</div>
+            </div>
+            <p><em>📍 주황색 박스가 이동했지만 원래 자리(투명)는 그대로 차지하고 있습니다.</em></p>
+        </div>
+
+        <!-- 3. ABSOLUTE -->
+        <div class="section">
+            <h2>3. position: absolute (절대 위치)</h2>
+            <p>가장 가까운 positioned 부모 요소를 기준으로 위치합니다.</p>
+            
+            <div class="code-block">
+.parent {
+  position: relative; /* 자식의 기준점 */
+}
+.absolute-box {
+  position: absolute;
+  top: 10px;    /* 부모 기준 */
+  right: 10px;  /* 부모 기준 */
+}
+            </div>
+
+            <div class="absolute-container">
+                <div class="absolute-box abs-1">좌상</div>
+                <div class="absolute-box abs-2">우상</div>
+                <div class="absolute-box abs-3">좌하</div>
+                <div class="absolute-box abs-4">우하</div>
+                <div class="absolute-box abs-center">중앙</div>
+            </div>
+            <p><em>📍 점선 영역(부모)을 기준으로 절대 위치가 결정됩니다.</em></p>
+        </div>
+
+        <!-- 4. FIXED -->
+        <div class="section">
+            <h2>4. position: fixed (고정 위치)</h2>
+            <p>뷰포트(브라우저 창)를 기준으로 위치합니다. 스크롤해도 위치가 고정됩니다.</p>
+            
+            <div class="code-block">
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+            </div>
+
+            <p>🔝 <strong>상단의 보라색 헤더</strong>와 🔴 <strong>우하단 FAB 버튼</strong>이 fixed 예시입니다!</p>
+            <p>페이지를 스크롤해봐도 고정되어 있습니다.</p>
+        </div>
+
+        <!-- 5. STICKY -->
+        <div class="section">
+            <h2>5. position: sticky (끈끈한 위치)</h2>
+            <p>스크롤 위치에 따라 relative와 fixed 사이를 전환합니다.</p>
+            
+            <div class="code-block">
+.sticky-header {
+  position: sticky;
+  top: 0; /* 상단 0px에 도달하면 고정 */
+}
+            </div>
+
+            <div class="sticky-container">
+                <div style="padding: 20px; background: #e1bee7;">
+                    <p>위로 스크롤해보세요! 👇</p>
+                </div>
+                <div class="sticky-header">🔥 Sticky Header - 스크롤하면 고정됨!</div>
+                <div class="sticky-content">
+                    <h3>스크롤 가능한 콘텐츠</h3>
+                    <p>이 영역을 스크롤해보세요. 위의 보라색 헤더가 상단에 도달하면 고정됩니다!</p>
+                    <div style="height: 200px; background: #f8bbd9; margin: 20px 0; display: flex; align-items: center; justify-content: center;">
+                        더 많은 콘텐츠...
+                    </div>
+                    <div style="height: 200px; background: #f48fb1; margin: 20px 0; display: flex; align-items: center; justify-content: center;">
+                        계속 스크롤...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Z-INDEX -->
+        <div class="section">
+            <h2>6. z-index (쌓임 순서)</h2>
+            <p>positioned 요소들의 쌓임 순서를 결정합니다. 숫자가 클수록 위에 표시됩니다.</p>
+            
+            <div class="code-block">
+.z1 { z-index: 1; } /* 가장 아래 */
+.z2 { z-index: 2; } /* 중간 */
+.z3 { z-index: 3; } /* 가장 위 */
+            </div>
+
+            <div class="zindex-demo">
+                <div class="zindex-box z1">z: 1</div>
+                <div class="zindex-box z2">z: 2</div>
+                <div class="zindex-box z3">z: 3</div>
+            </div>
+        </div>
+
+        <!-- 실제 사용 예시 -->
+        <div class="section">
+            <h2>🎯 실제 사용 예시</h2>
+            
+            <h3>1. 모달창</h3>
+            <div class="code-block">
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+            </div>
+
+            <h3>2. 툴팁</h3>
+            <div class="code-block">
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+            </div>
+
+            <h3>3. 네비게이션 바</h3>
+            <div class="code-block">
+.navbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+            </div>
+        </div>
+
+        <!-- 스페이서들 -->
+        <div class="spacer">스크롤을 위한 공간 1</div>
+        <div class="spacer">스크롤을 위한 공간 2</div>
+        <div class="spacer">스크롤을 위한 공간 3</div>
+        <div class="spacer">페이지 끝 - FAB 버튼을 클릭해보세요!</div>
+    </div>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // 스크롤 이벤트로 fixed header 스타일 변경
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.fixed-header');
+            if (window.scrollY > 100) {
+                header.style.background = '#512da8';
+            } else {
+                header.style.background = '#673ab7';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+/* 대안: 더 세밀한 반응형 제어 */
+.theoryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 중간 화면: 2개씩 (더 넓게) */
+@media (min-width: 768px) {
+  .theoryGrid {
+    max-width: 800px;
+    gap: 2rem;
+  }
+}
+
+/* 큰 화면: 4개씩 */
+@media (min-width: 1200px) {
+  .theoryGrid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+  }
+}
+
+/* 매우 큰 화면: 6개씩 */
+@media (min-width: 1600px) {
+  .theoryGrid {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 1400px;
+  }
+}
+
+/* 작은 모바일: 간격 줄이기 */
+@media (max-width: 480px) {
+  .theoryGrid {
+    gap: 1rem;
+    max-width: 100%;
+  }
+}

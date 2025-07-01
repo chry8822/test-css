@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>짝수 그리드 예시</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 방법 1: CSS만으로 짝수 강제 */
+        .css-even-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr); /* 기본 2개 */
+        }
+
+        @media (min-width: 1000px) {
+            .css-even-grid {
+                grid-template-columns: repeat(4, 1fr); /* 큰 화면에서 4개 */
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .css-even-grid {
+                grid-template-columns: repeat(6, 1fr); /* 매우 큰 화면에서 6개 */
+            }
+        }
+
+        /* 방법 2: JavaScript 동적 제어 */
+        .js-even-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr); /* 기본값 */
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-radius: 8px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .resize-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="resize-info" id="resizeInfo">
+        화면 너비: <span id="screenWidth"></span>px
+    </div>
+
+    <h1>🎯 무조건 짝수로 배열하는 방법들</h1>
+    
+    <div class="container">
+        <h2>방법 1: CSS 미디어 쿼리로 제어</h2>
+        <div class="info">
+            📱 작은 화면: 2개 컬럼<br>
+            💻 중간 화면: 4개 컬럼<br>
+            🖥️ 큰 화면: 6개 컬럼<br>
+            → 항상 짝수!
+        </div>
+        <div class="css-even-grid">
+            <div class="card">카드 1</div>
+            <div class="card">카드 2</div>
+            <div class="card">카드 3</div>
+            <div class="card">카드 4</div>
+            <div class="card">카드 5</div>
+            <div class="card">카드 6</div>
+            <div class="card">카드 7</div>
+            <div class="card">카드 8</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>방법 2: JavaScript 동적 제어</h2>
+        <div class="info" id="jsInfo">
+            JavaScript가 화면 크기를 감지하여 자동으로 짝수 컬럼 설정
+        </div>
+        <div class="js-even-grid" id="jsGrid">
+            <div class="card">카드 1</div>
+            <div class="card">카드 2</div>
+            <div class="card">카드 3</div>
+            <div class="card">카드 4</div>
+            <div class="card">카드 5</div>
+            <div class="card">카드 6</div>
+            <div class="card">카드 7</div>
+            <div class="card">카드 8</div>
+            <div class="card">카드 9</div>
+            <div class="card">카드 10</div>
+        </div>
+    </div>
+
+    <script>
+        function updateScreenInfo() {
+            const width = window.innerWidth;
+            document.getElementById('screenWidth').textContent = width;
+        }
+
+        function setEvenGrid() {
+            const container = document.getElementById('jsGrid');
+            const containerWidth = container.offsetWidth;
+            const cardMinWidth = 250; // 최소 카드 너비
+            const gap = 24; // 1.5rem = 24px
+            
+            // 가능한 컬럼 수 계산
+            const possibleColumns = Math.floor((containerWidth + gap) / (cardMinWidth + gap));
+            
+            // 짝수로 만들기
+            let evenColumns;
+            if (possibleColumns <= 1) {
+                evenColumns = 2; // 최소 2개
+            } else if (possibleColumns % 2 === 0) {
+                evenColumns = possibleColumns; // 이미 짝수
+            } else {
+                evenColumns = possibleColumns - 1; // 홀수면 -1해서 짝수로
+            }
+            
+            // 최대 8개로 제한
+            evenColumns = Math.min(evenColumns, 8);
+            
+            container.style.gridTemplateColumns = `repeat(${evenColumns}, 1fr)`;
+            
+            // 정보 업데이트
+            document.getElementById('jsInfo').innerHTML = `
+                📐 컨테이너 너비: ${containerWidth}px<br>
+                📊 가능한 컬럼: ${possibleColumns}개<br>
+                ✅ 실제 적용: ${evenColumns}개 (짝수)<br>
+                🎯 각 카드 너비: ${Math.floor((containerWidth - (gap * (evenColumns - 1))) / evenColumns)}px
+            `;
+        }
+
+        // 이벤트 리스너
+        window.addEventListener('load', () => {
+            updateScreenInfo();
+            setEvenGrid();
+        });
+
+        window.addEventListener('resize', () => {
+            updateScreenInfo();
+            setEvenGrid();
+        });
+
+        // 실시간 업데이트
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateScreenInfo();
+                setEvenGrid();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
