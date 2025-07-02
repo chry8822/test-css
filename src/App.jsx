@@ -9,8 +9,8 @@ import './styles/index.css';
 
 function App() {
   return (
-    <Router>
-      <div className="App" basename="/test-css">
+    <Router basename="/test-css">
+      <div className="App">
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
