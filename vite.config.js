@@ -7,6 +7,12 @@ export default defineConfig({
   base: '/css-practice/',
   build: {
     outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+    },
   },
   server: {
     host: '0.0.0.0',
