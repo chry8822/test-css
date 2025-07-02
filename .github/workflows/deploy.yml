@@ -2,7 +2,7 @@ name: Deploy React App to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -10,44 +10,38 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      # 1. 코드 체크아웃
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Node.js 설치
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          # cache 라인 완전히 제거
 
-      # 3. 의존성 설치
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
-          run: npm install 
+        run: npm install
 
-      # 4. React 앱 빌드
-      - name: Build React app
+      - name: Build
         run: npm run build
 
-      # 5. GitHub Pages 설정
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # 6. 빌드 결과물 업로드
-      - name: Upload Pages artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
-      # 7. GitHub Pages에 배포
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
