@@ -2,16 +2,12 @@ name: Deploy React App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
   pages: write
   id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -19,7 +15,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,13 +23,31 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Build project
         run: npm run build
+
+      # 🔍 빌드 결과 확인 단계 추가
+      - name: Show build results
+        run: |
+          echo "=== Build directory contents ==="
+          ls -la dist/
+          echo ""
+          echo "=== Built index.html content ==="
+          cat dist/index.html
+          echo ""
+          echo "=== All files in dist ==="
+          find dist -type f
+          echo ""
+          echo "=== JavaScript files ==="
+          find dist -name "*.js" -exec ls -la {} \;
+          echo ""
+          echo "=== CSS files ==="
+          find dist -name "*.css" -exec ls -la {} \;
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
