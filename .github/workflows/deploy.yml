@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
         run: |
@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "=== dist 폴더 존재 확인 ==="
           if [ -d "dist" ]; then
-            echo "✅ dist 폴더 존재"
+            echo "✅ dist 폴더 존재ㅋ"
             ls -la dist/
           else
             echo "❌ dist 폴더 없음!"
