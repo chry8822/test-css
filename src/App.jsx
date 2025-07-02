@@ -10,7 +10,7 @@ import './styles/index.css';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App" basename="/test-css">
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
