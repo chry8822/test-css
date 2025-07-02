@@ -1,4 +1,4 @@
-name: Deploy React App
+name: Debug Deploy
 
 on:
   push:
@@ -11,14 +11,17 @@ permissions:
 
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check repository contents
+        run: |
+          echo "=== Repository 파일들 ==="
+          ls -la
+          echo "=== index.html 존재 확인 ==="
+          ls -la index.html || echo "❌ index.html 없음!"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,37 +29,52 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      # 🔍 빌드 결과 확인 단계 추가
-      - name: Show build results
         run: |
-          echo "=== Build directory contents ==="
-          ls -la dist/
-          echo ""
-          echo "=== Built index.html content ==="
-          cat dist/index.html
-          echo ""
-          echo "=== All files in dist ==="
-          find dist -type f
-          echo ""
-          echo "=== JavaScript files ==="
-          find dist -name "*.js" -exec ls -la {} \;
-          echo ""
-          echo "=== CSS files ==="
-          find dist -name "*.css" -exec ls -la {} \;
+          echo "=== package.json 확인 ==="
+          cat package.json
+          echo "=== 의존성 설치 ==="
+          npm install
+          echo "=== node_modules 확인 ==="
+          ls node_modules/ | head -5
+
+      - name: Build
+        run: |
+          echo "=== 빌드 시작 ==="
+          npm run build
+          echo "=== 빌드 완료 ==="
+
+      - name: Verify build results
+        run: |
+          echo "=== dist 폴더 존재 확인 ==="
+          if [ -d "dist" ]; then
+            echo "✅ dist 폴더 존재"
+            ls -la dist/
+          else
+            echo "❌ dist 폴더 없음!"
+            ls -la
+            exit 1
+          fi
+
+          echo "=== index.html 내용 확인 ==="
+          if [ -f "dist/index.html" ]; then
+            cat dist/index.html
+          else
+            echo "❌ dist/index.html 없음!"
+            exit 1
+          fi
+
+          echo "=== 모든 빌드 파일 ==="
+          find dist -type f -exec ls -lh {} \;
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
+        environment:
+          name: github-pages
